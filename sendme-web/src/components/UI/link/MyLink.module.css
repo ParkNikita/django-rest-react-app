@@ -1,0 +1,12 @@
+.myLink {
+    padding: 5px 15px;
+    color: white;
+    font-size: 14px;
+    background: transparent;
+    text-decoration: none;
+}
+
+.myLink:hover {
+    color: black
+
+}
