@@ -1,16 +1,19 @@
 import { observer } from 'mobx-react-lite';
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 
 import MyButton from '../components/UI/button/MyButton';
 
 import TweetService from '../API/TweetService';
 
-const TweetCreateForm = ({}) => {
+const TweetCreateForm = ({create}) => {
     const [content, setContent] = useState('')
-    const loadtweet = function (e) {
+    const loadtweet = async function (e) {
         e.preventDefault()
-        TweetService.createTweet(content)
-        TweetService.getAll()
+        const  response = await TweetService.createTweet(content)
+        const newTweet = {
+            ...response.data
+        }
+        create(newTweet)
     }
 
     return (

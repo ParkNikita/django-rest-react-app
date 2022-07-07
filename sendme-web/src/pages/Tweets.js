@@ -2,6 +2,7 @@ import { useFetching } from "../hooks/useFetching"
 import { useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 
+import MyLoader from "../components/UI/loader/MyLoader"
 import TweetList from "../components/TweetList"
 import TweetService from "../API/TweetService"
 import TweetCreateForm from "../components/TweetCreateForm"
@@ -17,20 +18,28 @@ const Tweets = () => {
 
     useEffect( () => {
         fetchTweets()
-        
+
     }, [])
 
-    console.log(tweets)
+    const createTweet = function (newTweet) {
+        setTweets([newTweet, ...tweets])
+      }
+
 
 
     return (
         <div>
             <div className="flex justify-center my-10 text-4xl font-medium text-black-400">
-                Welcome to Sendme
-                
+                Welcome to Sendme 
             </div>
-            <TweetCreateForm/>
-            <TweetList tweets={tweets}/>
+            {tweetError &&
+                <div>Error {tweetError}</div>
+            }
+            <TweetCreateForm create={createTweet} />
+            {isTweetsLoading &&
+                <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}><MyLoader/></div>
+            }   
+            <TweetList tweets={tweets} create={createTweet}/>
 
         </div>
     )

@@ -6,7 +6,6 @@ import Tweets from "../pages/Tweets"
 export const publicRoutes = [
     {path: '/login', component: <Login/>, exact: true},
     {path: '/registration', component: <Registration/>, exact: true},
-    {path: '/tweets', component: <Tweets/>, exact: true},
     {path: '*', component: <Tweets/>, exact: true},
 
 ]
