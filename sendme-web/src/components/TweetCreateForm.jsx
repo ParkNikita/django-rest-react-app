@@ -1,20 +1,29 @@
 import { observer } from 'mobx-react-lite';
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import { Context } from '..';
 import MyButton from '../components/UI/button/MyButton';
-
 import TweetService from '../API/TweetService';
 
 const TweetCreateForm = ({create}) => {
+    const {store} = useContext(Context)
     const [content, setContent] = useState('')
+    const navigate = useNavigate();
+
     const loadtweet = async function (e) {
         e.preventDefault()
-        const  response = await TweetService.createTweet(content)
-        const newTweet = {
-            ...response.data
+        if (store.isAuth) {
+            const response = await TweetService.createTweet(content)
+            const newTweet = {
+                ...response.data
+            }
+            create(newTweet)
+        }else {
+            navigate('/login')
         }
-        create(newTweet)
     }
+    
 
     return (
 

@@ -1,13 +1,12 @@
 import {makeAutoObservable} from 'mobx';
-import AuthService from '../services/AuthService';
+import AuthService from '../API/AuthService';
 import axios from 'axios';
-import TweetService from '../API/TweetService';
 
 
 export default class Store {
     isAuth = false;
     isLoading = false;
-
+    
     constructor() {
         makeAutoObservable(this);
     }
@@ -30,18 +29,17 @@ export default class Store {
             const response = await AuthService.login(username, password);
             localStorage.setItem('token', response.data.access);
             localStorage.setItem('refresh-token', response.data.refresh);
+            localStorage.setItem('username', username)
             this.setAuth(true);
-            console.log(response.data)
-
         } catch (e) {
-            console.log(e.response?.data?.message);
+            alert(e.response.data.detail);
         }
     }
 
     async logout() {
-
         localStorage.removeItem('token');
         localStorage.removeItem('refresh-token');
+        localStorage.removeItem('username');
         this.setAuth(false);
 
     }

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'tweets',
+    'profiles'
 ]
 
 MIDDLEWARE = [
@@ -134,7 +135,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'sendme-web/build/static'
 ]
-MEDIA_ROOT = BASE_DIR / 'static/images'
+MEDIA_ROOT = BASE_DIR / 'sendme-web/build/static/images'
 MEDIA_URL = '/images/'
 
 # Default primary key field type

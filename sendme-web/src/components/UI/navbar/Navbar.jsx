@@ -24,7 +24,9 @@ const Navbar = () => {
               Sendme
             </div>
             <div className={classes.navLinks}>
-              <MyLink to='/tweets'>Tweets</MyLink>
+              <MyLink to=''>Tweets</MyLink>
+              <MyLink to='/me'>My Tweets</MyLink>
+              <MyLink to='/profile'>Profile</MyLink>
             </div>
             <div className={classes.navAuth}>
             <MyButton onClick={() => store.logout()}>Log Out</MyButton>
@@ -43,7 +45,7 @@ const Navbar = () => {
 
             <div className={classes.navLinks}>
               <MyLink to='/tweets'>Tweets</MyLink>
-              <MyLink to=''>Docs</MyLink>
+
             </div>
 
             <div className={classes.navAuth}>

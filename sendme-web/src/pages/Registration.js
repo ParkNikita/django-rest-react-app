@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React, {useContext, useState} from 'react';
 import { Context } from '..';
+import { useNavigate } from 'react-router-dom';
 
 import MyInput from '../components/UI/input/MyInput';
 import MyButton from '../components/UI/button/MyButton';
@@ -11,6 +12,7 @@ const Registration = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const {store} = useContext(Context)
+    const navigate = useNavigate();
 
 
     return (

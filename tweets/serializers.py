@@ -1,8 +1,11 @@
+import json
+
 from django.conf import settings
 
 from rest_framework import serializers
 
 from . import models
+from profiles.models import Profile
 
 
 TWEET_ACTIONS_OPTIONS = settings.TWEET_ACTIONS_OPTIONS
@@ -18,6 +21,9 @@ class UserCreateSerializer(serializers.Serializer):
         user = models.User.objects.create_user(
             username=validated_data['username'],
             password=validated_data['password'],
+        )
+        profile = Profile.objects.create(
+            user = user
         )
         return user
 
@@ -41,12 +47,15 @@ class TweetActionSerializer(serializers.Serializer):
 
 class TweetCreateSerializer(serializers.HyperlinkedModelSerializer):
     likes = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = models.Tweet
         fields = ['id', 'content', 'likes']
 
     def get_likes(self, obj):
         return obj.likes.count()
+
+
 
 
 class TweetSerializer(serializers.HyperlinkedModelSerializer):

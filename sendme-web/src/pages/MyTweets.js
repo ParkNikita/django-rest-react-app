@@ -1,17 +1,16 @@
+import ProfileService from "../API/ProfileService";
+import { useState, useEffect } from "react";
 import { useFetching } from "../hooks/useFetching"
-import { useEffect, useState } from "react"
-import { observer } from "mobx-react-lite"
-import MyLoader from "../components/UI/loader/MyLoader"
-import TweetList from "../components/TweetList"
-import TweetService from "../API/TweetService"
-import TweetCreateForm from "../components/TweetCreateForm"
+import TweetCreateForm from "../components/TweetCreateForm";
+import TweetList from "../components/TweetList";
+import MyLoader from "../components/UI/loader/MyLoader";
 
-const Tweets = () => {
+const MyTweets = () => {
 
     const [tweets, setTweets] = useState([])
 
     const [fetchTweets, isTweetsLoading, tweetError] = useFetching( async() => {
-        const response = await TweetService.getAll()
+        const response = await ProfileService.myTweets()
         setTweets([...tweets, ...response.data])
         
     })
@@ -24,12 +23,12 @@ const Tweets = () => {
     const createTweet = function (newTweet) {
         setTweets([newTweet, ...tweets])
       }
-    console.log(tweets)
+
 
     return (
         <div>
             <div className="flex justify-center my-10 text-4xl font-medium text-black-400">
-                Welcome to Sendme 
+                My Tweets 
             </div>
             {tweetError &&
                 <div>Error {tweetError}</div>
@@ -42,7 +41,7 @@ const Tweets = () => {
 
         </div>
     )
-
 }
 
-export default observer(Tweets);
+
+export default MyTweets;

@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React, {useContext, useState} from 'react';
 import { Context } from '..';
+import { useNavigate } from 'react-router-dom';
 
 import MyInput from '../components/UI/input/MyInput';
 import MyButton from '../components/UI/button/MyButton';
@@ -10,6 +11,17 @@ const Login = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const {store} = useContext(Context)
+    const navigate = useNavigate();
+
+    const submitLogin = async function (e) {
+        e.preventDefault()
+        store.login(username, password)
+        setUsername('')
+        setPassword('')
+        if (store.isAuth) {
+            navigate('tweets/')
+        }
+    }
 
 
     return (
@@ -31,7 +43,7 @@ const Login = () => {
                 value={password}
             />
 
-            <MyButton onClick={() => store.login(username, password)}>Login</MyButton>
+            <MyButton onClick={submitLogin}>Login</MyButton>
 
         </div>
 
