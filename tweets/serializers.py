@@ -1,5 +1,3 @@
-import json
-
 from django.conf import settings
 
 from rest_framework import serializers
@@ -17,7 +15,6 @@ class UserCreateSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
 
     def create(self, validated_data):
-
         user = models.User.objects.create_user(
             username=validated_data['username'],
             password=validated_data['password'],
@@ -45,17 +42,20 @@ class TweetActionSerializer(serializers.Serializer):
         return value
 
 
+
 class TweetCreateSerializer(serializers.HyperlinkedModelSerializer):
     likes = serializers.SerializerMethodField(read_only=True)
+    username = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = models.Tweet
-        fields = ['id', 'content', 'likes']
+        fields = ['id', 'content', 'likes', 'username']
 
     def get_likes(self, obj):
         return obj.likes.count()
-
-
+    
+    def get_username(self, obj):
+        return obj.user.username
 
 
 class TweetSerializer(serializers.HyperlinkedModelSerializer):

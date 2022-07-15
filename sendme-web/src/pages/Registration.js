@@ -14,7 +14,6 @@ const Registration = () => {
     const {store} = useContext(Context)
     const navigate = useNavigate();
 
-
     return (
 
         <div className='registration-page'>
@@ -39,7 +38,6 @@ const Registration = () => {
                 name="password"
                 value={password}
             />
-
             <MyButton onClick={() => store.registration(email, username, password)}>register</MyButton>
 
         </div>

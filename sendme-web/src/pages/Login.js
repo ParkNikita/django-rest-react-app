@@ -23,11 +23,9 @@ const Login = () => {
         }
     }
 
-
     return (
 
         <div className='login-page'>
-
             <MyLabel for="username">Username</MyLabel>
             <MyInput
                 onChange={e => setUsername(e.target.value)}
@@ -42,12 +40,8 @@ const Login = () => {
                 name="password"
                 value={password}
             />
-
             <MyButton onClick={submitLogin}>Login</MyButton>
-
         </div>
-
-
     )
 }
 

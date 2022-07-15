@@ -23,7 +23,6 @@ export default class Store {
         this.isLoading = bool
     }
 
- 
     async login(username, password) {
         try {
             const response = await AuthService.login(username, password);
@@ -65,8 +64,5 @@ export default class Store {
             this.setLoading(false)
         }
     }
-
-
-
-    
+  
 }

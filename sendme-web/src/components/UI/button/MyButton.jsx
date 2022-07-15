@@ -13,7 +13,6 @@ const MyButton = function ({children, action, ...props}) {
     const [likes, setLikes] = useState(children.likes)
     const [userLike, setUserLike] = useState(false)
 
-
     const handleDidLike = function (event) {
         event.preventDefault()
         if (userLike === true && store.isAuth) {

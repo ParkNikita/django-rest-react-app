@@ -6,13 +6,11 @@ import TweetList from "../components/TweetList";
 import MyLoader from "../components/UI/loader/MyLoader";
 
 const MyTweets = () => {
-
     const [tweets, setTweets] = useState([])
 
     const [fetchTweets, isTweetsLoading, tweetError] = useFetching( async() => {
         const response = await ProfileService.myTweets()
         setTweets([...tweets, ...response.data])
-        
     })
 
     useEffect( () => {
@@ -23,7 +21,6 @@ const MyTweets = () => {
     const createTweet = function (newTweet) {
         setTweets([newTweet, ...tweets])
       }
-
 
     return (
         <div>
@@ -38,7 +35,6 @@ const MyTweets = () => {
                 <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}><MyLoader/></div>
             }   
             <TweetList tweets={tweets} create={createTweet}/>
-
         </div>
     )
 }

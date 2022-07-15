@@ -11,7 +11,8 @@ class ProfileSerializer(serializers.Serializer):
     bio = serializers.CharField(required=False)
     location = serializers.CharField(required=False)
     image = serializers.ImageField(required=False)
-
+    followers = serializers.SerializerMethodField(required=False)
+    following = serializers.SerializerMethodField(required=False)
 
     def update(self, instance, validated_data):
         """
@@ -27,6 +28,12 @@ class ProfileSerializer(serializers.Serializer):
         instance.image = validated_data.get('image', instance.image)
         instance.save()
         return instance
+    
+    def get_followers(self, obj):
+        return obj.followers.count()
+
+    def get_following(self, obj):
+        return obj.user.following.count()
 
 
 
