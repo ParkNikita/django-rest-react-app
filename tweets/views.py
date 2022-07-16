@@ -80,6 +80,13 @@ class TweetActionView(APIView):
                 serializer = serializers.TweetSerializer(tweet)
                 return Response(serializer.data, status=200)
 
+            elif action == 'retweet' and tweet.parent != None:
+                new_tweet = models.Tweet.objects.create(
+                    user = request.user,
+                    parent = tweet.parent,
+                    content = content
+                )
+
             elif action == 'retweet':
                 new_tweet = models.Tweet.objects.create(
                     user = request.user,

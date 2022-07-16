@@ -30,8 +30,10 @@ export default class Store {
             localStorage.setItem('refresh-token', response.data.refresh);
             localStorage.setItem('username', username)
             this.setAuth(true);
+            return response
         } catch (e) {
             alert(e.response.data.detail);
+            return e
         }
     }
 

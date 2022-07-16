@@ -8,6 +8,12 @@ export default class ProfileService {
 
     }
 
+    static async Profile(nickname) {
+        const response = await api.get(`profiles/${nickname}/`)
+        return response
+
+    }
+
     static async myTweets() {
         const response = await api.get(`profiles/${localStorage.getItem('username')}/tweets/`)
         return response

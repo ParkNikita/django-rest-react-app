@@ -15,7 +15,7 @@ class TweetLike(models.Model):
 
 class Tweet(models.Model):
     parent = models.ForeignKey('self', null=True, on_delete=models.SET_NULL, blank=True)
-    content = models.TextField(max_length=240, blank=True, null=True)
+    content = models.TextField(max_length=500, blank=True, null=True)
     image = models.ImageField(blank=True, null=True)
     likes = models.ManyToManyField('User', related_name = 'tweet_user', blank=True, through='TweetLike')
     user = models.ForeignKey(User, on_delete=models.CASCADE)

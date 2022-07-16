@@ -36,10 +36,10 @@ const MyButton = function ({children, action, ...props}) {
 
     
 
-    if (action == 'like') {
+    if (action === 'like') {
         return (
             <button onClick={handleDidLike} {...props}>
-                {likes} Likes
+                {likes} Like
             </button>
 
         )

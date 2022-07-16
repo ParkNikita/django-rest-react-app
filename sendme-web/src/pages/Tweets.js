@@ -27,12 +27,15 @@ const Tweets = () => {
     return (
         <div>
             <div className="flex justify-center my-10 text-4xl font-medium text-black-400">
-                Welcome to Sendme 
+                Tweets
             </div>
             {tweetError &&
                 <div>Error {tweetError}</div>
             }
-            <TweetCreateForm create={createTweet} />
+            {!isTweetsLoading &&
+                <TweetCreateForm create={createTweet} />
+            }
+            
             {isTweetsLoading &&
                 <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}><MyLoader/></div>
             }   

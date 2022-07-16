@@ -30,7 +30,10 @@ const MyTweets = () => {
             {tweetError &&
                 <div>Error {tweetError}</div>
             }
-            <TweetCreateForm create={createTweet} />
+            {!isTweetsLoading &&
+                <TweetCreateForm create={createTweet} />
+            }   
+            
             {isTweetsLoading &&
                 <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}><MyLoader/></div>
             }   

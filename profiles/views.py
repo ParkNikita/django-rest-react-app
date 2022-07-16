@@ -7,7 +7,6 @@ from rest_framework import status
 
 from tweets.models import Tweet
 from tweets.serializers import TweetSerializer
-
 from . import models
 from . import serializers
 
