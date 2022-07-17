@@ -2,6 +2,7 @@ import ProfileService from "../API/ProfileService";
 import { useState, useEffect } from "react";
 import { useFetching } from "../hooks/useFetching"
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const CheckProfile = () => {
     let {username} = useParams();
@@ -38,6 +39,19 @@ const CheckProfile = () => {
     }, [])
 
 
+    const follow = async function (e) {
+        e.preventDefault()
+
+        try {
+            const response = await ProfileService.Follow(localStorage.getItem('username'), username)
+        } catch (error) {
+            alert(error)
+        }
+        
+
+
+    }
+
     return (   
         <div>
             <div class="container px-5 py-24 mx-auto">
@@ -51,8 +65,8 @@ const CheckProfile = () => {
                     <div class='text-white bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600'>
                        Following: {following}
                     </div>    
-                    <button class="h-10 px-5 text-indigo-700 transition-colors duration-150 border border-blue-700 rounded-lg focus:shadow-outline hover:bg-blue-800 hover:text-indigo-100" type="">Check Tweets</button>
-                    <button class="h-10 px-5 text-indigo-700 transition-colors duration-150 border border-blue-700 rounded-lg focus:shadow-outline hover:bg-blue-800 hover:text-indigo-100" type="">Follow</button>
+                    <Link to={`tweets/`} class="p-2 text-indigo-700 transition-colors duration-150 border border-blue-700 rounded-lg focus:shadow-outline hover:bg-blue-800 hover:text-indigo-100" type="">Check Tweets</Link>
+                    <button onClick={follow} class="h-10 px-5 text-indigo-700 transition-colors duration-150 border border-blue-700 rounded-lg focus:shadow-outline hover:bg-blue-800 hover:text-indigo-100" type="">Follow</button>
                 </div>
                 
                 <div>

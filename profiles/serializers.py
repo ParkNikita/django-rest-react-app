@@ -1,6 +1,31 @@
+from django.contrib.auth import get_user_model
+
 from rest_framework import serializers
 
 from . import models
+
+
+User = get_user_model()
+
+
+
+
+
+class UserSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username',)
+        
+
+class FollowingSerializer (serializers.ModelSerializer):
+    user = UserSerializer()
+    
+    class Meta:
+        model = models.Profile
+        fields = ('id', 'user')
+
+
+
 
 class ProfileSerializer(serializers.Serializer):
     user = serializers.CharField()
@@ -30,10 +55,16 @@ class ProfileSerializer(serializers.Serializer):
         return instance
     
     def get_followers(self, obj):
-        return obj.followers.count()
+        profile = models.Profile.objects.get(id=obj.id)
+        followers = profile.followers.all()
+        serializer = UserSerializer(followers, many=True)
+        return serializer.data
 
     def get_following(self, obj):
-        return obj.user.following.count()
+        print(obj.user.following.all())
+        followers = obj.user.following.all()
+        serializer = FollowingSerializer(followers, many=True)
+        return serializer.data
 
 
 

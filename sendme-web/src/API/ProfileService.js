@@ -8,8 +8,8 @@ export default class ProfileService {
 
     }
 
-    static async Profile(nickname) {
-        const response = await api.get(`profiles/${nickname}/`)
+    static async Profile(username) {
+        const response = await api.get(`profiles/${username}/`)
         return response
 
     }
@@ -20,6 +20,13 @@ export default class ProfileService {
 
     }
 
+    static async Tweets(username) {
+        const response = await api.get(`profiles/${username}/tweets/`)
+        return response
+
+    }
+
+
     static async updateProfile(nickname, bio, location, first_name, last_name, date_of_birth) {
         try{
             const response = await api.put(`profiles/${localStorage.getItem('username')}/update/`, {nickname, bio, location, first_name, last_name, date_of_birth})
@@ -28,6 +35,12 @@ export default class ProfileService {
             console.log(e.response?.data?.message)
         }   
         
+    }
+
+    static async Follow(username, tofollowuser) {
+        const response = await api.post(`profiles/${username}/follow/`, {"username": tofollowuser})
+        return response
+
     }
 
 
