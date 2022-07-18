@@ -43,5 +43,11 @@ export default class ProfileService {
 
     }
 
+    static async UnFollow(username, tounfollowuser) {
+        const response = await api.post(`profiles/${username}/unfollow/`, {"username": tounfollowuser})
+        return response
+
+    }
+
 
 }

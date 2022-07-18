@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 from tweets.models import Tweet
 from tweets.serializers import TweetSerializer
@@ -23,16 +24,20 @@ class ProfileTweetListView(APIView):
 
 
 class ProfileDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, username, *args, **kwargs):
         try:
             queryset = models.Profile.objects.get(user__username=username)
         except:
             return Response({'message': 'Profile does not find'}, status=404)
-        serializer = serializers.ProfileSerializer(queryset)
+        serializer = serializers.ProfileSerializer(queryset, context={'request': request})
         return Response(serializer.data, status=200)
 
 
 class ProfileUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def put(self, request, username, *args, **kwargs):
         profile = models.Profile.objects.get(user__username=username)
         serializer = serializers.ProfileSerializer(profile, data=request.data)    
@@ -43,6 +48,8 @@ class ProfileUpdateView(APIView):
 
 
 class ProfileFollowView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request, username, *args, **kwargs):
         me = User.objects.get(username=username)
         try:
@@ -50,6 +57,19 @@ class ProfileFollowView(APIView):
         except:
             return Response({"message":"Cant follow user"}, status=401)  
         to_follow_user.followers.add(me)
+        return Response({"message":"successfully followed"},status=200)
+
+
+class ProfileUnfollowView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, username, *args, **kwargs):
+        me = User.objects.get(username=username)
+        try:
+            to_unfollow_profile = models.Profile.objects.get(user__username=request.data['username'])
+        except:
+            return Response({"message":"Cant follow user"}, status=401)  
+        to_unfollow_profile.followers.remove(me)
         return Response({"message":"successfully followed"},status=200)
 
 

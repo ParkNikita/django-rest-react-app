@@ -1,30 +1,32 @@
 from django.contrib.auth import get_user_model
 
+from rest_framework.fields import CurrentUserDefault
 from rest_framework import serializers
 
 from . import models
 
-
 User = get_user_model()
 
+class FollowerProfile(serializers.ModelSerializer):
+    class Meta:
+        model = models.Profile
+        fields = ('image', 'first_name', 'last_name')
+    
 
+class FollowerUserSerializer (serializers.ModelSerializer):
+    profile = FollowerProfile()
 
-
-
-class UserSerializer (serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username',)
-        
+        fields = ('username', 'profile', )
+
 
 class FollowingSerializer (serializers.ModelSerializer):
-    user = UserSerializer()
+    user = FollowerUserSerializer()
     
     class Meta:
         model = models.Profile
-        fields = ('id', 'user')
-
-
+        fields = ('user',)
 
 
 class ProfileSerializer(serializers.Serializer):
@@ -36,14 +38,36 @@ class ProfileSerializer(serializers.Serializer):
     bio = serializers.CharField(required=False)
     location = serializers.CharField(required=False)
     image = serializers.ImageField(required=False)
-    followers = serializers.SerializerMethodField(required=False)
-    following = serializers.SerializerMethodField(required=False)
+    count_followers = serializers.SerializerMethodField(required=False)
+    count_following = serializers.SerializerMethodField(required=False)
+    followers = serializers.SerializerMethodField(required=False) 
+    following = serializers.SerializerMethodField(required=False) 
+    is_following = serializers.SerializerMethodField(required=False) 
+    
+    def get_is_following(self, obj):
+        is_following = False
+        user = self.context.get('request', None).user
+        is_following = user in obj.followers.all()
+        return is_following
 
+    def get_count_followers(self, obj):
+        return obj.followers.count()
+
+    def get_followers(self, obj):
+        profile = models.Profile.objects.get(id=obj.id)
+        followers = profile.followers.all()
+        serializer = FollowerUserSerializer(followers, many=True)
+        return serializer.data
+
+    def get_count_following(self, obj):
+        return obj.user.following.count()
+
+    def get_following(self, obj):
+        followers = obj.user.following.all()
+        serializer = FollowingSerializer(followers, many=True)
+        return serializer.data
+    
     def update(self, instance, validated_data):
-        """
-        Update and return an existing `Snippet` instance, given the validated data.
-        """
-        print(validated_data)
         instance.nickname = validated_data.get('nickname', instance.nickname)
         instance.bio = validated_data.get('bio', instance.bio)
         instance.location = validated_data.get('location', instance.location)
@@ -53,60 +77,3 @@ class ProfileSerializer(serializers.Serializer):
         instance.image = validated_data.get('image', instance.image)
         instance.save()
         return instance
-    
-    def get_followers(self, obj):
-        profile = models.Profile.objects.get(id=obj.id)
-        followers = profile.followers.all()
-        serializer = UserSerializer(followers, many=True)
-        return serializer.data
-
-    def get_following(self, obj):
-        print(obj.user.following.all())
-        followers = obj.user.following.all()
-        serializer = FollowingSerializer(followers, many=True)
-        return serializer.data
-
-
-
-
-
-    # id = serializers.SerializerMethodField(read_only=False)
-    # username = serializers.SerializerMethodField(read_only=False)
-    # nickname = serializers.SerializerMethodField(required=False, read_only=False)
-    # bio = serializers.SerializerMethodField(required=False, read_only=False)
-    # location = serializers.SerializerMethodField(required=False, read_only=False)
-    # image = serializers.SerializerMethodField(read_only=False)
-
-    # class Meta:
-    #     model = models.Profile
-    #     fields = ['id', 'username','nickname', 'bio', 'location', 'image']
-
-    # def get_id(self, obj):
-    #     return obj.id
-
-    # def get_nickname(self, obj):
-    #     return obj.nickname
-
-    # def get_username(self, obj):
-    #     return obj.user.username
-
-    # def get_bio(self, obj):
-    #     return obj.bio
-
-    # def get_location(self, obj):
-    #     return obj.location
-    
-    # def get_image(self, obj):
-    #     return obj.image.url
-
-    # def update(self, instance, validated_data):
-    #     """
-    #     Update and return an existing `Snippet` instance, given the validated data.
-    #     """
-    #     print(self.validated_data['location'])
-    #     instance.nickname = validated_data.get('nickname', instance.nickname)
-    #     instance.bio = validated_data.get('bio', instance.bio)
-    #     instance.location = validated_data.get('location', instance.location)
-    #     instance.image = validated_data.get('image', instance.image)
-    #     instance.save()
-    #     return instance

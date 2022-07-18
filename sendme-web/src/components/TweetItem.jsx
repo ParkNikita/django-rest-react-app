@@ -18,7 +18,7 @@ const TweetItem = (props) => {
 
     return (
         <div className='text-[15px] p-3 m-10 border-2 border-grey-500 border-opacity-100'>
-            {props.tweet.user == localStorage.getItem('username')
+            {props.tweet.user === localStorage.getItem('username')
             ?<Link className='font-bold' to={`profile`}> @{props.tweet.user ? props.tweet.user : "You"}</Link>
             :<Link className='font-bold' to={`profile/${props.tweet.user}`}> @{props.tweet.user ? props.tweet.user : "You"}</Link>
             }
@@ -28,7 +28,7 @@ const TweetItem = (props) => {
             <div>
                 <div className='text-[15px] p-3 mb-5 mt-5 border-2 border-grey-500 border-opacity-100'>
                 <h2>Retweet</h2>
-                {props.tweet.parent.username == localStorage.getItem('username')
+                {props.tweet.parent.username === localStorage.getItem('username')
                     ?<Link className='font-bold' to={`profile/`}>@{props.tweet.parent.username}</Link>
                     :<Link className='font-bold' to={`profile/${props.tweet.parent.username}`}>@{props.tweet.parent.username}</Link>
                 }
