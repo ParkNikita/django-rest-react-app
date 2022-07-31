@@ -19,7 +19,7 @@ const TweetItem = (props) => {
     return (
         <div className='text-[15px] p-3 m-10 border-2 border-grey-500 border-opacity-100'>
             {props.tweet.user === localStorage.getItem('username')
-            ?<Link className='font-bold' to={`myprofile`}> @{props.tweet.user ? props.tweet.user : "You"}</Link>
+            ?<Link className='font-bold' to={`myprofile`}> @{props.tweet.user}</Link>
             :<Link className='font-bold' to={`profile/${props.tweet.user}`}> @{props.tweet.user}</Link>
             }
             

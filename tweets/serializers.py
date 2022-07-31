@@ -45,16 +45,16 @@ class TweetActionSerializer(serializers.Serializer):
 
 class TweetCreateSerializer(serializers.HyperlinkedModelSerializer):
     likes = serializers.SerializerMethodField(read_only=True)
-    username = serializers.SerializerMethodField(read_only=True)
+    user = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = models.Tweet
-        fields = ['id', 'content', 'likes', 'username']
+        fields = ['id', 'content', 'likes', 'user']
 
     def get_likes(self, obj):
         return obj.likes.count()
     
-    def get_username(self, obj):
+    def get_user(self, obj):
         return obj.user.username
 
 
