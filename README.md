@@ -20,6 +20,4 @@ To run this project you will need to set your environment variables.
 
 4. Inside the sendme-web folder run: **`npm run build`** (you'll need to make sure your Node version is not less than v14.0.0 and your NPM version is not less than v5.6.)
 
-5. inside sendme-web/build create a folder **`images`**
-
-6. Go to main folder and run: **`python manage.py runserver`**
+5. Go to main folder and run: **`python manage.py runserver`**
