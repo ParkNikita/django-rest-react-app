@@ -8,14 +8,12 @@ import TweetCreateForm from "../components/TweetCreateForm"
 
 const Tweets = () => {
     const [tweets, setTweets] = useState([])
-    const [modal, setModal] = useState('')
 
     const [fetchTweets, isTweetsLoading, tweetError] = useFetching( async() => {
         const response = await TweetService.getAll()
         setTweets([...tweets, ...response.data])
 
     })
-
     useEffect( () => {
         fetchTweets()
 

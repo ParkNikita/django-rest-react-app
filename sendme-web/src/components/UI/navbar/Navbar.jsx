@@ -26,7 +26,8 @@ const Navbar = () => {
             <div className={classes.navLinks}>
               <MyLink to=''>Tweets</MyLink>
               <MyLink to='/me'>My Tweets</MyLink>
-              <MyLink to='/profile'>Profile</MyLink>
+              <MyLink to='/profile'>Profiles</MyLink>
+              <MyLink to='/myprofile'>My Profile</MyLink>
             </div>
             <div className={classes.navAuth}>
             <MyButton onClick={() => store.logout()}>Log Out</MyButton>

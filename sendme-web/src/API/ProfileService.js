@@ -8,6 +8,11 @@ export default class ProfileService {
 
     }
 
+    static async getAllProfiles() {
+        const response = await api.get('profiles/')
+        return response
+    }
+
     static async Profile(username) {
         const response = await api.get(`profiles/${username}/`)
         return response

@@ -133,9 +133,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'sendme-web/build/static'
+    BASE_DIR / 'sendme-web/build/static', BASE_DIR / 'static'
 ]
-MEDIA_ROOT = BASE_DIR / 'sendme-web/build/static/images'
+MEDIA_ROOT = BASE_DIR / 'static/images'
 MEDIA_URL = '/images/'
 
 # Default primary key field type

@@ -16,6 +16,13 @@ from . import serializers
 User = get_user_model()
 
 
+class ProfileListView(APIView):
+    def get(self, request, *args, **kwargs):
+        queryset = models.Profile.objects.all()
+        serializer = serializers.FollowerProfile(queryset, many=True)
+        return Response(serializer.data, status=200)
+
+
 class ProfileTweetListView(APIView):
     def get(self, request, username, *args, **kwargs):
         queryset = Tweet.objects.filter(user__username=username)

@@ -18,7 +18,7 @@ const Login = () => {
         const response = await store.login(username, password)
         setUsername('')
         setPassword('')
-        if (response.status == 200) {
+        if (response.status === 200) {
             navigate('/tweets')
         } 
 

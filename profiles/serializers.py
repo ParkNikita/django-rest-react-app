@@ -46,7 +46,7 @@ class ProfileSerializer(serializers.Serializer):
     
     def get_is_following(self, obj):
         is_following = False
-        user = self.context.get('request', None).user
+        user = self.context.get('request').user
         is_following = user in obj.followers.all()
         return is_following
 
@@ -77,3 +77,14 @@ class ProfileSerializer(serializers.Serializer):
         instance.image = validated_data.get('image', instance.image)
         instance.save()
         return instance
+
+
+class FollowerProfile(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField(required=False)
+
+    class Meta:
+        model = models.Profile
+        fields = ('image', 'first_name', 'last_name', 'user')
+    
+    def get_user(self, obj):
+        return obj.user.username
