@@ -14,6 +14,10 @@ class UserCreateSerializer(serializers.Serializer):
     username = serializers.CharField(write_only=True)
     password = serializers.CharField(write_only=True)
 
+    class Meta:
+        model = models.User
+        fields = ["id", "username", "password"]
+
     def create(self, validated_data):
         user = models.User.objects.create_user(
             username=validated_data['username'],
@@ -24,10 +28,7 @@ class UserCreateSerializer(serializers.Serializer):
         )
         return user
 
-    class Meta:
-        model = models.User
-        # Tuple of serialized model fields (see link [2])
-        fields = ( "id", "username", "password", )
+
 
 
 class TweetActionSerializer(serializers.Serializer):
@@ -40,7 +41,6 @@ class TweetActionSerializer(serializers.Serializer):
         if value not in TWEET_ACTIONS_OPTIONS:
             raise serializers.ValidationError('This is not a valid action for tweets')
         return value
-
 
 
 class TweetCreateSerializer(serializers.HyperlinkedModelSerializer):

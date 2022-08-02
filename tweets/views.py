@@ -14,6 +14,7 @@ class UserCreateView(CreateAPIView):
         AllowAny 
     ]
     serializer_class = serializers.UserCreateSerializer
+    
 
 
 class TweetListView(APIView):

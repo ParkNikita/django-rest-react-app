@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite';
-import React, {useContext, useState} from 'react';
-import { Context } from '..';
+import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import AuthService from '../API/AuthService';
 import MyInput from '../components/UI/input/MyInput';
 import MyButton from '../components/UI/button/MyButton';
 import MyLabel from '../components/UI/label/MyLabel';
@@ -11,8 +11,24 @@ const Registration = () => {
     const [email, setEmail] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const {store} = useContext(Context)
     const navigate = useNavigate();
+
+
+    const submit = async function (e) {
+        e.preventDefault()
+        try {
+            const response = await AuthService.registration(email, username, password)
+            setEmail('')
+            setUsername('')
+            setPassword('')
+            navigate('/login')
+
+        } catch (error) {
+            console.log(error)
+            alert(error)
+        }
+
+    }
 
     return (
 
@@ -38,7 +54,7 @@ const Registration = () => {
                 name="password"
                 value={password}
             />
-            <MyButton onClick={() => store.registration(email, username, password)}>register</MyButton>
+            <MyButton onClick={submit}>register</MyButton>
 
         </div>
 
